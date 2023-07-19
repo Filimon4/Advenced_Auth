@@ -42,7 +42,7 @@
       }
     },
     "lint-staged": {
-      "*.{js,json,css,md,html}" : [
+      "*.{js,json,css,md,html,ts}" : [
         "prettier --single-qoute --write",
         "git add" 
       ]
