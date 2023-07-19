@@ -18,7 +18,8 @@ server.on('request', (req, res) => {
     } else {
         res.writeHead(404, {
             'Content-Type': 'text/html' 
-        })
+        }
+        )
 
         res.write(
             '<h1>404 Not Found</h1>'
