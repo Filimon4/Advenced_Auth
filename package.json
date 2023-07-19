@@ -37,14 +37,14 @@
         "dotenv": "16.3.1"
     },
     "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged"
-      }
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
     },
     "lint-staged": {
-      "*.{js,json,css,md,html,ts}" : [
-        "prettier --single-quote --write",
-        "git add" 
-      ]
+        "*.{js,json,css,md,html,ts}": [
+            "npm run prettier:fix",
+            "git add"
+        ]
     }
 }
