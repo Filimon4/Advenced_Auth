@@ -1,0 +1,7 @@
+{
+    "tasWidth": 4,
+    "semi": true,
+    "printWidth": 120,
+    "useTabs": false,
+    "trailingComma": "all"
+}
