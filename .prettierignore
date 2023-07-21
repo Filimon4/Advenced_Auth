@@ -1,0 +1,5 @@
+build
+.env
+*.json
+node_modules
+.prettierrc

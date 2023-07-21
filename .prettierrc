@@ -1,7 +1,9 @@
 {
-    "tasWidth": 4,
+    "tabWidth": 4,
     "semi": true,
-    "printWidth": 120,
-    "useTabs": false,
-    "trailingComma": "all"
+    "singleQuote": false,
+    "trailingComma": "all",
+    "bracketSpacing": false,
+    "bracketSameLine": false,
+    "arrowParens": "always"
 }
