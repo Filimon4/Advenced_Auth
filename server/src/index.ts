@@ -1,9 +1,23 @@
-import http from "http";
-import dotenv from "dotenv";
+import express from "express";
+import {config} from "dotenv";
+import roots from "../roots/root.js"
+import mongoose from "mongoose";
 
-dotenv.config();
+config()
 
-const PORT = process.env.PORT || 5050;
-const server = http.createServer();
+const PORT = process.env.PORT || 5050
+const app = express();
 
-server.listen(PORT);
+app.use(express.json());
+app.use("/api", roots)
+
+async function server() {
+    try {
+        // await mongoose.connect();
+        app.listen(PORT, () => console.log('listening on port'))
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+server()
