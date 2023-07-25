@@ -1,16 +1,19 @@
 {
     "env": {
         "node": true,
-        "browser": true
+        "browser": true,
+        "jest": true
     },
     "plugins": ["@typescript-eslint"],
     "extends": [
-        "eslint:recommend",
         "plugin:@typescript-eslint/recommended",
+        "airbnb",
         "prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": "latest"
-    }
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {}
 }
