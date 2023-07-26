@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import UserModel from "../Schema/User.js";
 import {validationResult} from "express-validator";
+import UserModel from "../Schema/User.js";
 
 function generateAccessToken(id: string) {
     const payload = {id};
@@ -30,7 +30,6 @@ class Auth {
             await user.save();
             return res.status(200).json({message: "Registration successful"});
         } catch (error) {
-            console.log(error);
             res.status(400).json({message: error});
         }
     }
@@ -54,7 +53,6 @@ class Auth {
             const jwtAccesToken = generateAccessToken(user._id.toString());
             return res.json({jwtAccesToken});
         } catch (error) {
-            console.log(error);
             res.status(400).json({message: error});
         }
     }

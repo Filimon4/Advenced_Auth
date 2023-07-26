@@ -11,7 +11,9 @@
     "clean": "rimraf ./build",
     "compile": "npm run clean && npm run build",
     "dev_start": "nodemon ./sever/src/index.ts",
-    "start": "ts-node ./server/src/index.ts"
+    "start": "ts-node ./server/src/index.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "keywords": [],
   "author": "",
@@ -25,6 +27,7 @@
     "@typescript-eslint/parser": "^6.2.0",
     "eslint": "8.2.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
