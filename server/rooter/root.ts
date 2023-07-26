@@ -1,6 +1,7 @@
 import Router from "express";
 import {check} from "express-validator";
 import authController from "../controllers/authController.js";
+import userController from "../controllers/userController.js";
 
 const router = Router();
 
@@ -21,12 +22,12 @@ router.post(
 router.post("/login", authController.login);
 
 // logout root
-router.post("/logout")
+router.post("/logout", authController.logout)
 // activate link
-router.get('/activate/:link')
+router.get('/activate/:link', authController.activation)
 // get users root
-router.get("/refresh")
+router.get("/refresh", authController.refresh)
 // test root with users
-router.get('/users')
+router.get('/users', userController.getUsers)
 
 export default router;
