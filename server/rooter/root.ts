@@ -4,6 +4,7 @@ import authController from "../controllers/authController.js";
 
 const router = Router();
 
+// Registration root
 router.post(
     "/registration",
     [
@@ -16,6 +17,16 @@ router.post(
     authController.registration,
 );
 
+// login root
 router.post("/login", authController.login);
+
+// logout root
+router.post("/logout")
+// activate link
+router.get('/activate/:link')
+// get users root
+router.get("/refresh")
+// test root with users
+router.get('/users')
 
 export default router;

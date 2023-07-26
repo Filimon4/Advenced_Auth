@@ -56,6 +56,11 @@ class Auth {
             res.status(400).json({message: error});
         }
     }
+
+    // @ts-ignore
+    async logout(req, res) {
+        // Delete jwt token from user
+    }
 }
 
 export default new Auth();
