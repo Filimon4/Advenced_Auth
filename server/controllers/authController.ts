@@ -5,16 +5,16 @@ class Auth {
     // @ts-ignore
     async registration(req, res, next) {
         try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return next()
-            }
-            const {email, password} = req.body;
-            const userData = await userServices.registration(email, password)
-            res.cookie( 'refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true}) // write cookies
-            return res.json(userData); // return UserData in json object
+           const validReq = validationResult(req)
+           if (validReq.isEmpty()) {
+            throw new Error('Request invalid')
+           }
+           const {username, email, password} = req.body;
+           const userData = await userServices.registration(username, email, password)
+           res.cookie("refreshToken", userData?.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+           return res.json(userData)
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -28,7 +28,13 @@ class Auth {
     }
     // @ts-ignore
     async activation (req, res, next) {
-
+        try {
+            const activationLink = req.params.link
+            await userServices.activate(activationLink)
+            return res.redirect(process.env.CLIENT_URL)
+        } catch (error) {
+            next(error)
+        }
     }
     // @ts-ignore
     async refresh (req, res, next) {
