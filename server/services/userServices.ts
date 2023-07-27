@@ -4,40 +4,48 @@ import UserModel from "../Schema/User.js";
 import UserDto from "../dtos/user-dto.js";
 import tokenServices from "./tokenServices.js";
 import ApiError from "../exceptions/api-error.js";
-import mailServices from "./mailServices.js";
+// import mailServices from "./mailServices.js";
 
 class UserServices {
-    async registration(username: string, email: string, password: string) {
+    static registration = async (
+        username: string,
+        email: string,
+        password: string,
+    ) => {
         const candidate = await UserModel.findOne({email});
         if (candidate) {
-            throw ApiError.BabRequest("There is already a user this this unsername or email")
+            throw ApiError.BabRequest(
+                "There is already a user this this unsername or email",
+            );
         }
         const passwordHashed = await bcrypt.hash(password, 7);
-        const activationLink = v4()
+        const activationLink = v4();
 
-        const user = await UserModel.create({username, email, password: passwordHashed, activationLink})
+        const user = await UserModel.create({
+            username,
+            email,
+            password: passwordHashed,
+            activationLink,
+        });
         // mail service
 
         const userDto = new UserDto(user);
-        const tokens = await tokenServices.generateToken({...userDto})
-        await tokenServices.saveToken(userDto.id, tokens.refreshToken)
+        const tokens = await tokenServices.generateToken({...userDto});
+        await tokenServices.saveToken(userDto.id, tokens.refreshToken);
 
-        return {...tokens, user: userDto}
-        
-    }
+        return {...tokens, user: userDto};
+    };
 
-    async login() {
+    // async login() {}
 
-    }
-
-    async activate(activationLink: string) {
+    static activate = async (activationLink: string) => {
         const user = await UserModel.findOne({activationLink});
         if (!user) {
-            throw ApiError.BabRequest("There is no user")
+            throw ApiError.BabRequest("There is no user");
         }
-        user.isActivated = true
-        await user.save()
-    }
+        user.isActivated = true;
+        await user.save();
+    };
 }
 
-export default new UserServices();
+export default UserServices;

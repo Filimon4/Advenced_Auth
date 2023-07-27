@@ -5,7 +5,7 @@
         "jest": true
     },
     "plugins": [
-        "react",
+        // "react",
         "@typescript-eslint"
     ],
     "extends": [

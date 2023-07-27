@@ -3,3 +3,5 @@ build
 *.json
 node_modules
 .prettierrc
+.eslintrc
+.eslintignore

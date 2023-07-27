@@ -5,7 +5,7 @@ const User = new Schema({
     password: {type: String, require: true},
     email: {type: String, require: true, unique: true},
     activationLink: {type: String},
-    isActivated: {type: Boolean, default: false}
+    isActivated: {type: Boolean, default: false},
 });
 
 const UserModel = model("User", User);

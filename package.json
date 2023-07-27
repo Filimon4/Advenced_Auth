@@ -13,7 +13,8 @@
     "dev_start": "nodemon ./sever/src/index.ts",
     "start": "ts-node ./server/src/index.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -40,7 +41,8 @@
     "prettier": "^3.0.0",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "husky": "^8.0.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

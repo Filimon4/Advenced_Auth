@@ -4,57 +4,69 @@ import ApiError from "../exceptions/api-error.js";
 
 class Auth {
     // @ts-ignore
-    async registration(req, res, next) {
+    static registration = async (req, res, next) => {
+        let userData;
         try {
-           const errors = validationResult(req)
-           if (!errors.isEmpty()) {
-            return next(ApiError.BabRequest("Validation failed", errors.array()))
-           }
-           const {username, email, password} = req.body;
-           const userData = await userServices.registration(username, email, password)
-           res.cookie("refreshToken", userData?.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-           return res.json(userData)
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(
+                    ApiError.BabRequest("Validation failed", errors.array()),
+                );
+            }
+            const {username, email, password} = req.body;
+            userData = await userServices.registration(
+                username,
+                email,
+                password,
+            );
+            res.cookie("refreshToken", userData?.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
+            });
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+        return res.json(userData);
+    };
 
     // @ts-ignore
-    async login(req, res, next) {
+    static login = async (req, res, next) => {
         try {
-            
+            return;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
 
     // @ts-ignore
-    async logout(req, res, next) {
+    static logout = async (req, res, next) => {
         // Delete jwt token from user
         try {
-            
+            return;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
+
     // @ts-ignore
-    async activation (req, res, next) {
+    static activation = async (req, res, next) => {
         try {
-            const activationLink = req.params.link
-            await userServices.activate(activationLink)
-            return res.redirect(process.env.CLIENT_URL)
+            const activationLink = req.params.link;
+            await userServices.activate(activationLink);
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+        return res.redirect(process.env.CLIENT_URL);
+    };
+
     // @ts-ignore
-    async refresh (req, res, next) {
+    static refresh = async (req, res, next) => {
         try {
-            
+            return;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
 }
 
-export default new Auth();
+export default Auth;

@@ -1,8 +1,6 @@
 class Users {
     // @ts-ignore
-    async getUsers(req, res) {
-
-    }
+    getUsers;
 }
 
 export default new Users();
