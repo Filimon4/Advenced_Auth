@@ -3,14 +3,14 @@ import bcrypt from "bcrypt";
 import UserModel from "../Schema/User.js";
 import UserDto from "../dtos/user-dto.js";
 import tokenServices from "./tokenServices.js";
+import ApiError from "../exceptions/api-error.js";
 import mailServices from "./mailServices.js";
-import { constrainedMemory } from "process";
 
 class UserServices {
     async registration(username: string, email: string, password: string) {
         const candidate = await UserModel.findOne({email});
         if (candidate) {
-            throw new Error("There is already a user this this unsername or email")
+            throw ApiError.BabRequest("There is already a user this this unsername or email")
         }
         const passwordHashed = await bcrypt.hash(password, 7);
         const activationLink = v4()
@@ -33,7 +33,7 @@ class UserServices {
     async activate(activationLink: string) {
         const user = await UserModel.findOne({activationLink});
         if (!user) {
-            throw new Error("There is no user")
+            throw ApiError.BabRequest("There is no user")
         }
         user.isActivated = true
         await user.save()

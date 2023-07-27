@@ -1,5 +1,5 @@
 import Router from "express";
-import {check} from "express-validator";
+import {body} from "express-validator";
 import authController from "../controllers/authController.js";
 import userController from "../controllers/userController.js";
 
@@ -7,8 +7,8 @@ const router = Router();
 
 // Registration root
 router.post("/registration",[
-    check("username", "The username must be provided").isEmpty(),
-    check("password", "The password must be longer than 4 and shorter than 10").isLength({min: 4, max: 10})
+    body("email").isEmail(),
+    body("password").isLength({min: 3, max: 32})
 ] ,authController.registration);
 
 // login root

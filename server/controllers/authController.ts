@@ -1,13 +1,14 @@
 import {validationResult} from "express-validator";
 import userServices from "../services/userServices.js";
+import ApiError from "../exceptions/api-error.js";
 
 class Auth {
     // @ts-ignore
     async registration(req, res, next) {
         try {
-           const validReq = validationResult(req)
-           if (validReq.isEmpty()) {
-            throw new Error('Request invalid')
+           const errors = validationResult(req)
+           if (!errors.isEmpty()) {
+            return next(ApiError.BabRequest("Validation failed", errors.array()))
            }
            const {username, email, password} = req.body;
            const userData = await userServices.registration(username, email, password)
@@ -20,11 +21,21 @@ class Auth {
 
     // @ts-ignore
     async login(req, res, next) {
+        try {
+            
+        } catch (error) {
+            next(error)
+        }
     }
 
     // @ts-ignore
     async logout(req, res, next) {
         // Delete jwt token from user
+        try {
+            
+        } catch (error) {
+            next(error)
+        }
     }
     // @ts-ignore
     async activation (req, res, next) {
@@ -38,7 +49,11 @@ class Auth {
     }
     // @ts-ignore
     async refresh (req, res, next) {
-
+        try {
+            
+        } catch (error) {
+            next(error)
+        }
     }
 }
 

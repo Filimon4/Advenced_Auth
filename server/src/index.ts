@@ -3,6 +3,7 @@ import {config} from "dotenv";
 import mongoose from "mongoose";
 import roots from "../rooter/root.js";
 import cookieParser  from "cookie-parser";
+import errorMidleware from "../middlewares/error-middleware.js"
 
 config();
 
@@ -12,6 +13,7 @@ const app: Express = express();
 app.use(express.json());
 app.use(cookieParser())
 app.use("/auth", roots);
+app.use(errorMidleware)
 
 async function server() {
     try {
