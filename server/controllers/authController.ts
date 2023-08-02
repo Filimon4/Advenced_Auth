@@ -32,7 +32,10 @@ class Auth {
     // @ts-ignore
     static login = async (req, res, next) => {
         try {
-            return;
+            const {email, password} = req.body;
+            const userData = await userServices.login(email, password);
+            res.cookie('refreshToken', userData?.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(userData)
         } catch (error) {
             next(error);
         }
@@ -42,7 +45,10 @@ class Auth {
     static logout = async (req, res, next) => {
         // Delete jwt token from user
         try {
-            return;
+            const {refreshToken} = req.coookies;
+            const token = await userServices.logout(refreshToken);
+            res.clearCookie('refreshToken');
+            return res.json(token);
         } catch (error) {
             next(error);
         }
@@ -62,7 +68,10 @@ class Auth {
     // @ts-ignore
     static refresh = async (req, res, next) => {
         try {
-            return;
+            const {refreshToken} = req.cookies;
+            const userData = await userServices.refresh(refreshToken);
+            res.cookie('refreshToken', userData.refreshToken!, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+            return res.json(userData);
         } catch (error) {
             next(error);
         }

@@ -16,6 +16,30 @@ class TokenServices {
         return {accessToken, refreshToken};
     };
 
+    static validateAccessToken = async (accessToken: string) => {
+        try {
+            const validToken = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!)
+            return validToken;
+        } catch {
+            return null
+        }
+        
+    }
+    
+    static validateRefreshToken = async (refreshToken: string) => {
+        try {
+            const validToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET!)
+            return validToken;
+        } catch  {
+            return null;
+        }
+    }
+
+    static removeToken = async (refreshToken: string) => {
+        const tokenData = await TokenModel.deleteOne({refreshToken});
+        return tokenData;
+    }
+
     static saveToken = async (userId: any, refreshToken: string) => {
         const token = await TokenModel.findOne({user: userId});
         if (token) {
@@ -25,6 +49,11 @@ class TokenServices {
         const tokenInst = await TokenModel.create({user: userId, refreshToken});
         return tokenInst;
     };
+
+    static findToken = async (token: string) => {
+        const tokenData = await TokenModel.findOne({token});
+        return tokenData;
+    }
 }
 
 export default TokenServices;
