@@ -5,8 +5,8 @@ class Users {
     // eslint-disable-next-line
     static getUsers = async (req, res, next) => {
         const users = await UserServices.getUsers();
-        return res.json(users)
-    }
+        return res.json(users);
+    };
 }
 
 export default Users;

@@ -18,27 +18,32 @@ class TokenServices {
 
     static validateAccessToken = async (accessToken: string) => {
         try {
-            const validToken = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!)
+            const validToken = jwt.verify(
+                accessToken,
+                process.env.JWT_ACCESS_SECRET!,
+            );
             return validToken;
         } catch {
-            return null
-        }
-        
-    }
-    
-    static validateRefreshToken = async (refreshToken: string) => {
-        try {
-            const validToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET!)
-            return validToken;
-        } catch  {
             return null;
         }
-    }
+    };
+
+    static validateRefreshToken = async (refreshToken: string) => {
+        try {
+            const validToken = jwt.verify(
+                refreshToken,
+                process.env.JWT_REFRESH_SECRET!,
+            );
+            return validToken;
+        } catch {
+            return null;
+        }
+    };
 
     static removeToken = async (refreshToken: string) => {
         const tokenData = await TokenModel.deleteOne({refreshToken});
         return tokenData;
-    }
+    };
 
     static saveToken = async (userId: any, refreshToken: string) => {
         const token = await TokenModel.findOne({user: userId});
@@ -53,7 +58,7 @@ class TokenServices {
     static findToken = async (token: string) => {
         const tokenData = await TokenModel.findOne({token});
         return tokenData;
-    }
+    };
 }
 
 export default TokenServices;

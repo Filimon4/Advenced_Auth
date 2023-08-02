@@ -31,27 +31,31 @@ class Auth {
 
     // @ts-ignore
     static login = async (req, res, next) => {
+        let userData;
         try {
             const {email, password} = req.body;
-            const userData = await userServices.login(email, password);
-            res.cookie('refreshToken', userData?.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData)
+            userData = await userServices.login(email, password);
+            res.cookie("refreshToken", userData?.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
+            });
         } catch (error) {
             next(error);
         }
+        return res.json(userData);
     };
 
     // @ts-ignore
     static logout = async (req, res, next) => {
-        // Delete jwt token from user
+        let token;
         try {
             const {refreshToken} = req.coookies;
-            const token = await userServices.logout(refreshToken);
-            res.clearCookie('refreshToken');
-            return res.json(token);
+            token = await userServices.logout(refreshToken);
+            res.clearCookie("refreshToken");
         } catch (error) {
             next(error);
         }
+        return res.json(token);
     };
 
     // @ts-ignore
@@ -67,14 +71,18 @@ class Auth {
 
     // @ts-ignore
     static refresh = async (req, res, next) => {
+        let userData;
         try {
             const {refreshToken} = req.cookies;
-            const userData = await userServices.refresh(refreshToken);
-            res.cookie('refreshToken', userData.refreshToken!, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
-            return res.json(userData);
+            userData = await userServices.refresh(refreshToken);
+            res.cookie("refreshToken", userData.refreshToken!, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
+            });
         } catch (error) {
             next(error);
         }
+        return res.json(userData);
     };
 }
 

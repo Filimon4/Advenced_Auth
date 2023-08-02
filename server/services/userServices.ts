@@ -4,7 +4,7 @@ import UserModel from "../Schema/User.js";
 import UserDto from "../dtos/user-dto.js";
 import tokenServices from "./tokenServices.js";
 import ApiError from "../exceptions/api-error.js";
-import { JwtPayload } from "../utils/jwt_interface.js";
+import {JwtPayload} from "../utils/jwt_interface.js";
 // import mailServices from "./mailServices.js";
 
 class UserServices {
@@ -38,25 +38,25 @@ class UserServices {
     };
 
     static login = async (email: string, password: string) => {
-        const user = await UserModel.findOne({email})
+        const user = await UserModel.findOne({email});
         if (!user) {
-            throw ApiError.BabRequest("There is not user with email")
+            throw ApiError.BabRequest("There is not user with email");
         }
-        const validPassword = await bcrypt.compare(password, user.password!)
+        const validPassword = await bcrypt.compare(password, user.password!);
         if (!validPassword) {
             throw ApiError.BabRequest("The password is incorrect");
         }
-        const userDto = new UserDto(user)
+        const userDto = new UserDto(user);
         const token = await tokenServices.generateToken({...userDto});
-        
-        await tokenServices.saveToken(userDto.id, token.refreshToken)
-        return {...token, user: userDto}
-    }
+
+        await tokenServices.saveToken(userDto.id, token.refreshToken);
+        return {...token, user: userDto};
+    };
 
     static logout = async (refreshToken: string) => {
         const token = await tokenServices.removeToken(refreshToken);
-        return token
-    }
+        return token;
+    };
 
     static activate = async (activationLink: string) => {
         const user = await UserModel.findOne({activationLink});
@@ -71,23 +71,25 @@ class UserServices {
         if (!refreshToken) {
             throw ApiError.UnathorizedError();
         }
-        const userData = await tokenServices.validateRefreshToken(refreshToken) as JwtPayload
+        const userData = (await tokenServices.validateRefreshToken(
+            refreshToken,
+        )) as JwtPayload;
         const tokenFromDB = await tokenServices.findToken(refreshToken);
         if (!userData || !tokenFromDB) {
             throw ApiError.UnathorizedError();
         }
         const user = await UserModel.findById(userData.id);
-        const userDto = new UserDto(user)
+        const userDto = new UserDto(user);
         const token = await tokenServices.generateToken({...userDto});
-        
-        await tokenServices.saveToken(userDto.id, token.refreshToken)
-        return {...token, user: userDto}
-    }
+
+        await tokenServices.saveToken(userDto.id, token.refreshToken);
+        return {...token, user: userDto};
+    };
 
     static getUsers = async () => {
         const users = await UserModel.find();
-        return users
-    }
+        return users;
+    };
 }
 
 export default UserServices;
