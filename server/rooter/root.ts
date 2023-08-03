@@ -2,6 +2,7 @@ import Router from "express";
 import {body} from "express-validator";
 import authController from "../controllers/authController.js";
 import userController from "../controllers/userController.js";
+import authMiddleware from "../middlewares/auth-middleware.js";
 
 const router = Router();
 
@@ -22,6 +23,6 @@ router.get("/activate/:link", authController.activation);
 // get users root
 router.get("/refresh", authController.refresh);
 // test root with users
-router.get("/users", userController.getUsers);
+router.get("/users", authMiddleware, userController.getUsers);
 
 export default router;

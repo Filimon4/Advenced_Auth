@@ -31,7 +31,7 @@ class UserServices {
         // mail service
 
         const userDto = new UserDto(user);
-        const tokens = await tokenServices.generateToken({...userDto});
+        const tokens = tokenServices.generateToken({...userDto});
         await tokenServices.saveToken(userDto.id, tokens.refreshToken);
 
         return {...tokens, user: userDto};
@@ -47,7 +47,7 @@ class UserServices {
             throw ApiError.BabRequest("The password is incorrect");
         }
         const userDto = new UserDto(user);
-        const token = await tokenServices.generateToken({...userDto});
+        const token = tokenServices.generateToken({...userDto});
 
         await tokenServices.saveToken(userDto.id, token.refreshToken);
         return {...token, user: userDto};
@@ -71,7 +71,7 @@ class UserServices {
         if (!refreshToken) {
             throw ApiError.UnathorizedError();
         }
-        const userData = (await tokenServices.validateRefreshToken(
+        const userData = ( tokenServices.validateRefreshToken(
             refreshToken,
         )) as JwtPayload;
         const tokenFromDB = await tokenServices.findToken(refreshToken);
@@ -80,7 +80,7 @@ class UserServices {
         }
         const user = await UserModel.findById(userData.id);
         const userDto = new UserDto(user);
-        const token = await tokenServices.generateToken({...userDto});
+        const token = tokenServices.generateToken({...userDto});
 
         await tokenServices.saveToken(userDto.id, token.refreshToken);
         return {...token, user: userDto};

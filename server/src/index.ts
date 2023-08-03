@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import roots from "../rooter/root.js";
 import errorMidleware from "../middlewares/error-middleware.js";
 
+
 config();
 
 const {PORT, DB_URL} = process.env;

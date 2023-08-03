@@ -49,7 +49,7 @@ class Auth {
     static logout = async (req, res, next) => {
         let token;
         try {
-            const {refreshToken} = req.coookies;
+            const {refreshToken} = req.cookies;
             token = await userServices.logout(refreshToken);
             res.clearCookie("refreshToken");
         } catch (error) {
