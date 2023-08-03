@@ -1,10 +1,11 @@
 import express, {Express} from "express";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import cors from "cors";
 import {config} from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import roots from "../rooter/root.js";
 import errorMidleware from "../middlewares/error-middleware.js";
-
 
 config();
 
@@ -13,6 +14,10 @@ const app: Express = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL
+}));
 app.use("/auth", roots);
 app.use(errorMidleware);
 

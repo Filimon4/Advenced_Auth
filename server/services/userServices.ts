@@ -71,9 +71,9 @@ class UserServices {
         if (!refreshToken) {
             throw ApiError.UnathorizedError();
         }
-        const userData = ( tokenServices.validateRefreshToken(
+        const userData = tokenServices.validateRefreshToken(
             refreshToken,
-        )) as JwtPayload;
+        ) as JwtPayload;
         const tokenFromDB = await tokenServices.findToken(refreshToken);
         if (!userData || !tokenFromDB) {
             throw ApiError.UnathorizedError();

@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import LoginForm from "./components/LoginForm";
 
 function App() {
-  return (
-    <div>
-      123asdf23123
-    </div>
-  );
+    return (
+      <div>
+        <LoginForm/>
+      </div>
+    )
 }
 
 export default App;
