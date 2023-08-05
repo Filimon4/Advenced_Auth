@@ -61,12 +61,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pret:fix"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "./server/**/*.{ts}": [
-      "npm run lint && npm run pret:fix"
-    ]
+    "./server/**/*.{ts}": ["npm run lint && npm run pret:fix", "git add"]
   }
 }
