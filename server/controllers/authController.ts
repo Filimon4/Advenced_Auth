@@ -82,7 +82,6 @@ class Auth {
         } catch (error) {
             next(error);
         }
-        console.log(userData)
         return res.json(userData);
     };
 }

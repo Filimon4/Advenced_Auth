@@ -1,6 +1,9 @@
-import { makeAutoObservable } from "mobx";
-import { IUser } from "../models/IUser";
+import axios from "axios";
+import {makeAutoObservable} from "mobx";
+import {IUser} from "../models/IUser";
 import AuthService from "../services/AuthService";
+import { AuthResponse } from "../models/response/AuthResponse";
+import { API_URL } from "../http";
 
 export default class Store {
     user = {} as IUser;
@@ -26,22 +29,20 @@ export default class Store {
             localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
-        } catch(e: any) {
+        } catch (e: any) {
             console.log(e.response?.data?.message);
         }
     }
 
-    async registration(email: string, password: string) {
+    async registration(username: string, email: string, password: string) {
         try {
-            console.log('here');
-            
-            const response = await AuthService.registration(email, password);
+            const response = await AuthService.registration(username, email, password);
             console.log(response);
 
             localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
-        } catch(e: any) {
+        } catch (e: any) {
             console.log(e.response?.data?.message);
         }
     }
@@ -52,7 +53,20 @@ export default class Store {
             localStorage.removeItem("token");
             this.setAuth(false);
             this.setUser({} as IUser);
-        } catch(e: any) {
+        } catch (e: any) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async checkAuth() {
+        try {
+            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
+            console.log(response);
+
+            localStorage.setItem('token', response.data.refreshToken)
+            this.setAuth(true);
+            this.setUser(response.data.user);
+        } catch (e: any) {
             console.log(e.response?.data?.message);
         }
     }

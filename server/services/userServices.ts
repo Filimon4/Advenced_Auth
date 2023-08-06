@@ -5,7 +5,7 @@ import UserDto from "../dtos/user-dto.js";
 import tokenServices from "./tokenServices.js";
 import ApiError from "../exceptions/api-error.js";
 import {JwtPayload} from "../utils/jwt_interface.js";
-// import mailServices from "./mailServices.js";
+// import mailServices from "./mailServices.js";1
 
 class UserServices {
     static registration = async (
